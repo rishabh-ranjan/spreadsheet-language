@@ -1,18 +1,24 @@
 (*
  * changes from assignment 2 to 3:
-    * integers are also accepted as FLOAT now.
+    * integers are also accepted as `FLOAT' now.
         * note that this was not done in assignment 2 only because
         * the specification seems to imply that '.' is mandatory
-        * for FLOAT tokens.
+        * for `FLOAT' tokens.
+    * all functions are captured under 3 token types:
+        * `FUNC', `FUNC_FLOAT' and `FUNC_RANGE'
+        * corresponding to the `func', `func_float' and `func_range' types
+        * defined in module `Sheet'.
+        * This enables greater flexibility and easier implementation.
 *)
 {
+    open Sheet (* Contains function declarations/definitions *)
 	open Parser	(* The type token is defined in parser.mli *)
     exception LexicalError
 }
 
     (* whitespace *)
 let ws = (' '|'\t'|'\n'|'\r')
-    (* NOTE: decimal point is mandatory as per specification *)
+    (* decimal point optional *)
 let float_ = ['-''+']?('0'|['1'-'9']['0'-'9']*)('.'('0'|['0'-'9']*['1'-'9']))?
     (* only non-negative integers are recognized, and only within indices and ranges *)
 let int_ = '0'|['1'-'9']['0'-'9']*
@@ -34,26 +40,26 @@ rule scan = parse
 | index_ { INDEX (int_of_string i, int_of_string j) }
 | range_ { RANGE ((int_of_string i1, int_of_string j1), (int_of_string i2, int_of_string j2)) }
     (* unary operators *)
-| "COUNT" { COUNT }
-| "ROWCOUNT" { ROWCOUNT }
-| "COLCOUNT" { COLCOUNT }
-| "SUM" { SUM }
-| "ROWSUM" { ROWSUM }
-| "COLSUM" { COLSUM }
-| "AVG" { AVG }
-| "ROWAVG" { ROWAVG }
-| "COLAVG" { COLAVG }
-| "MIN" { MIN }
-| "ROWMIN" { ROWMIN }
-| "COLMIN" { COLMIN }
-| "MAX" { MAX }
-| "ROWMAX" { ROWMAX }
-| "COLMAX" { COLMAX }
-    (* binary operators *)
-| "ADD" { ADD }
-| "SUBT" { SUBT }
-| "MULT" { MULT }
-| "DIV" { DIV }
+| "COUNT" { FUNC full_count }
+| "ROWCOUNT" { FUNC row_count }
+| "COLCOUNT" { FUNC col_count }
+| "SUM" { FUNC full_sum }
+| "ROWSUM" { FUNC row_sum }
+| "COLSUM" { FUNC col_sum }
+| "AVG" { FUNC full_avg }
+| "ROWAVG" { FUNC row_avg }
+| "COLAVG" { FUNC col_avg }
+| "MIN" { FUNC full_min }
+| "ROWMIN" { FUNC row_min }
+| "COLMIN" { FUNC col_min }
+| "MAX" { FUNC full_max }
+| "ROWMAX" { FUNC row_max }
+| "COLMAX" { FUNC col_max }
+    (* unary operators *)
+| "ADD"
+| "SUBT"
+| "MULT"
+| "DIV"
     (* ignore whitespace *)
 | ' '|'\t'|'\n'|'\r' { scan lexbuf }
     (* exception case *)

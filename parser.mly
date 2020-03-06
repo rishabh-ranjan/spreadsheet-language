@@ -8,23 +8,16 @@
 %token LBRAC RBRAC
 %token COMMA
 %token COLON
-%token <index> INDEX
-%token <range> RANGE
-	/* unary operators */
-%token COUNT ROWCOUNT COLCOUNT
-%token SUM ROWSUM COLSUM
-%token AVG ROWAVG COLAVG
-%token MIN ROWMIN COLMIN
-%token MAX ROWMAX COLMAX
-	/* binary operators */
-%token ADD
-%token SUBT
-%token MULT
-%token DIV
 	/* assignment operator */
 %token ASSIGN
 	/* formula termination */
 %token SEMICOLON
+%token <index> INDEX
+%token <range> RANGE
+    /* functions */
+%token <func> FUNC
+%token <func_float> FUNC_FLOAT
+%token <func_range> FUNC_RANGE
     /* end-of-file */
 %token EOF
 
