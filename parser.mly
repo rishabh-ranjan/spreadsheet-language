@@ -15,20 +15,27 @@
 %token <index> INDEX
 %token <range> RANGE
     /* functions */
-%token <func> FUNC
-%token <func_float> FUNC_FLOAT
-%token <func_range> FUNC_RANGE
+%token <func_unary> FUNC_UNARY
+%token <func_binary> FUNC_BINARY
     /* end-of-file */
 %token EOF
 
 %start main
-%type <unit> main
+%type <sheet->sheet> main
 
-%type 
+%type <sheet->sheet> line
 
 %%
 
-	/* will be done later */
-main: ; {}
+main: /* empty */ { fun x -> x }
+    | main line { fun x -> $1 x |> $2 }
+
+line: INDEX ASSIGN FUNC_UNARY RANGE SEMICOLON { $3 $4 $1 }
+    | INDEX ASSIGN FUNC_BINARY FLOAT RANGE SEMICOLON { $3.for_float $5 $4 $1 }
+    | INDEX ASSIGN FUNC_BINARY RANGE FLOAT SEMICOLON { $3.for_float $4 $5 $1 }
+    | INDEX ASSIGN FUNC_BINARY INDEX RANGE SEMICOLON { $3.for_index $5 $4 $1 }
+    | INDEX ASSIGN FUNC_BINARY RANGE INDEX SEMICOLON { $3.for_index $4 $5 $1 }
+    | INDEX ASSIGN FUNC_BINARY RANGE RANGE SEMICOLON { $3.for_range $5 $4 $1 }
+;
 
 /* TODO: parse error handling */

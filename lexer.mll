@@ -4,9 +4,9 @@
         * note that this was not done in assignment 2 only because
         * the specification seems to imply that '.' is mandatory
         * for `FLOAT' tokens.
-    * all functions are captured under 3 token types:
-        * `FUNC', `FUNC_FLOAT' and `FUNC_RANGE'
-        * corresponding to the `func', `func_float' and `func_range' types
+    * all functions are captured under 2 token types:
+        * `FUNC_UNARY' and `FUNC_BINARY'
+        * corresponding to the `func_unary' and `func_binary' types
         * defined in module `Sheet'.
         * This enables greater flexibility and easier implementation.
 *)
@@ -40,26 +40,26 @@ rule scan = parse
 | index_ { INDEX (int_of_string i, int_of_string j) }
 | range_ { RANGE ((int_of_string i1, int_of_string j1), (int_of_string i2, int_of_string j2)) }
     (* unary operators *)
-| "COUNT" { FUNC full_count }
-| "ROWCOUNT" { FUNC row_count }
-| "COLCOUNT" { FUNC col_count }
-| "SUM" { FUNC full_sum }
-| "ROWSUM" { FUNC row_sum }
-| "COLSUM" { FUNC col_sum }
-| "AVG" { FUNC full_avg }
-| "ROWAVG" { FUNC row_avg }
-| "COLAVG" { FUNC col_avg }
-| "MIN" { FUNC full_min }
-| "ROWMIN" { FUNC row_min }
-| "COLMIN" { FUNC col_min }
-| "MAX" { FUNC full_max }
-| "ROWMAX" { FUNC row_max }
-| "COLMAX" { FUNC col_max }
-    (* unary operators *)
-| "ADD"
-| "SUBT"
-| "MULT"
-| "DIV"
+| "COUNT" { FUNC_UNARY full_count }
+| "ROWCOUNT" { FUNC_UNARY row_count }
+| "COLCOUNT" { FUNC_UNARY col_count }
+| "SUM" { FUNC_UNARY full_sum }
+| "ROWSUM" { FUNC_UNARY row_sum }
+| "COLSUM" { FUNC_UNARY col_sum }
+| "AVG" { FUNC_UNARY full_avg }
+| "ROWAVG" { FUNC_UNARY row_avg }
+| "COLAVG" { FUNC_UNARY col_avg }
+| "MIN" { FUNC_UNARY full_min }
+| "ROWMIN" { FUNC_UNARY row_min }
+| "COLMIN" { FUNC_UNARY col_min }
+| "MAX" { FUNC_UNARY full_max }
+| "ROWMAX" { FUNC_UNARY row_max }
+| "COLMAX" { FUNC_UNARY col_max }
+    (* binary operators *)
+| "ADD" { FUNC_BINARY { for_float: add_float, for_index: add_index, for_range: add_range } }
+| "SUBT" { FUNC_BINARY { for_float: subt_float, for_index: subt_index, for_range: subt_range } }
+| "MULT" { FUNC_BINARY { for_float: mult_float, for_index: mult_index, for_range: mult_range } }
+| "DIV" { FUNC_BINARY { for_float: div_float, for_index: div_index, for_range: div_range } }
     (* ignore whitespace *)
 | ' '|'\t'|'\n'|'\r' { scan lexbuf }
     (* exception case *)
