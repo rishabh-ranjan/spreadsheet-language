@@ -56,10 +56,10 @@ rule scan = parse
 | "ROWMAX" { FUNC_UNARY row_max }
 | "COLMAX" { FUNC_UNARY col_max }
     (* binary operators *)
-| "ADD" { FUNC_BINARY { for_float: add_float, for_index: add_index, for_range: add_range } }
-| "SUBT" { FUNC_BINARY { for_float: subt_float, for_index: subt_index, for_range: subt_range } }
-| "MULT" { FUNC_BINARY { for_float: mult_float, for_index: mult_index, for_range: mult_range } }
-| "DIV" { FUNC_BINARY { for_float: div_float, for_index: div_index, for_range: div_range } }
+| "ADD" { FUNC_BINARY { for_float = add_float; for_index = add_index; for_range = add_range } }
+| "SUBT" { FUNC_BINARY { for_float = subt_float; for_index = subt_index; for_range = subt_range } }
+| "MULT" { FUNC_BINARY { for_float = mult_float; for_index = mult_index; for_range = mult_range } }
+| "DIV" { FUNC_BINARY { for_float = div_float; for_index = div_index; for_range = div_range } }
     (* ignore whitespace *)
 | ' '|'\t'|'\n'|'\r' { scan lexbuf }
     (* exception case *)
@@ -88,7 +88,7 @@ rule scan = parse
      *  [INDEX (0, 4); ASSIGN; MULT; RANGE ((0, 0), (2, 0)); RANGE ((0, 2), (2, 2)); EOF]
      *  #
      *)
-    let demo () =
+    let lex_demo () =
         let lexbuf = Lexing.from_channel stdin in
         token_list [] lexbuf
 }
