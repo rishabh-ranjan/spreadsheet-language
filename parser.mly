@@ -1,4 +1,8 @@
 /* vim: set ft=yacc: */
+/*
+ * changes from assignment 3: sheet->sheet is replaced with sheet->unit
+ * reflecting the design decision to implement the sheet using arrays
+ */
 %{
 %}
 %token <float> FLOAT
@@ -19,18 +23,18 @@
 %token EOF
 
 %start main
-%type <Sheet.sheet -> Sheet.sheet> main
+%type <Sheet.sheet -> unit> main
 
-%type <Sheet.sheet -> Sheet.sheet> line
+%type <Sheet.sheet -> unit> line
 
 %%
 
-main: /* empty */ { fun x -> x }
-    | main line { fun x -> $1 x |> $2 }
+main: /* empty */ { fun x -> () }
+    | main line { fun x -> ($1 x; $2 x) }
     | main error { 
         let start_pos = Parsing.rhs_start_pos 2 in
         Printf.eprintf "Line %d: parse error\n" start_pos.pos_lnum;
-        fun x -> x
+        fun x -> ()
     }
 ;
 

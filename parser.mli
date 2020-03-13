@@ -15,4 +15,4 @@ type token =
   | EOF
 
 val main :
-  (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Sheet.sheet -> Sheet.sheet
+  (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Sheet.sheet -> unit
