@@ -610,7 +610,7 @@ and
 
   | 32 ->
 # 74 "lexer.mll"
-    ( Printf.eprintf "Line %d: lexical error\n" lexbuf.Lexing.lex_curr_p.pos_lnum; scan lexbuf )
+    ( ERROR )
 # 615 "lexer.ml"
 
   | 33 ->

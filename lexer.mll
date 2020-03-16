@@ -70,8 +70,8 @@ rule scan = parse
 | ' '|'\t'|'\r' { scan lexbuf }
     (* newline *)
 | '\n' { incr_linenum lexbuf; scan lexbuf }
-    (* exception case - intimate about lexical error and continue scanning*)
-| _ { Printf.eprintf "Line %d: lexical error\n" lexbuf.Lexing.lex_curr_p.pos_lnum; scan lexbuf }
+    (* exception case - let the parser handle the error *)
+| _ { ERROR }
 | eof { EOF }
 
 {

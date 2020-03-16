@@ -21,17 +21,19 @@
 %token <Sheet.func_binary> FUNC_BINARY
     /* end-of-file */
 %token EOF
+    /* signals lexical error */
+%token ERROR
 
 %start main
-%type <Sheet.sheet -> unit> main
+%type <Sheet.sheet -> Sheet.sheet> main
 
 %start line
-%type <Sheet.sheet -> unit> line
+%type <Sheet.sheet -> Sheet.sheet> line
 
 %%
 
-main: /* empty */ { fun x -> () }
-    | main line { fun x -> ($1 x; $2 x) }
+main: /* empty */ { fun x -> x }
+    | main line { fun x -> $2 ($1 x) }
 ;
 
 line: INDEX ASSIGN FUNC_UNARY RANGE SEMICOLON { $3 $4 $1 }
@@ -42,9 +44,9 @@ line: INDEX ASSIGN FUNC_UNARY RANGE SEMICOLON { $3 $4 $1 }
     | INDEX ASSIGN FUNC_BINARY RANGE RANGE SEMICOLON { $3.for_range $5 $4 $1 }
     | error {
         let start_pos = Parsing.symbol_start_pos () in
-        Printf.eprintf "Line %d: parse error\n" (start_pos.pos_lnum);
+        Printf.eprintf "Line %d: syntax error\n" (start_pos.pos_lnum);
         flush stderr;
-        fun x -> ()
+        fun x -> x
     }
 ;
 

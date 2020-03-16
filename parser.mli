@@ -13,8 +13,9 @@ type token =
   | FUNC_UNARY of (Sheet.func_unary)
   | FUNC_BINARY of (Sheet.func_binary)
   | EOF
+  | ERROR
 
 val main :
-  (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Sheet.sheet -> unit
+  (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Sheet.sheet -> Sheet.sheet
 val line :
-  (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Sheet.sheet -> unit
+  (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Sheet.sheet -> Sheet.sheet

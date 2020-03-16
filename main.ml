@@ -29,16 +29,36 @@ let rec repl sheet =
     flush stdout;
     let lexbuf = Lexing.from_channel stdin in
     let func = Parser.line Lexer.scan lexbuf in
-    func sheet; repl sheet
+    (*
+    let new_sheet = try func sheet with (
+        | Sheet.Undefined_cell_value ->
+            Printf.eprintf "Error: cell with undefined value was used\n";
+            flush stderr;
+            sheet
+        | Sheet.Negative_index ->
+            Printf.eprintf "Error: Negative index was used\n";
+            flush stderr;
+            sheet
+        | Sheet.Range_size_mismatch ->
+            Printf.eprintf "Error: Sizes of ranges don't match\n";
+            flush stderr;
+            sheet
+        | _ ->
+            Printf.eprintf "Error: Some error occurred\n";
+            flush stderr;
+            sheet
+    ) in
+    *)
+    repl (func sheet)
 
 let compile sheet in_channel =
     let lexbuf = Lexing.from_channel in_channel in
     let func = Parser.main Lexer.scan lexbuf in
-    func sheet; Sheet.print_sheet sheet
+    Sheet.print_sheet (func sheet)
 
 let () = match Array.length Sys.argv with
-| 0 -> Printf.eprintf "Please specify sheet initialization file as command-line argument!\n"
-| 1 ->
+| 1 -> Printf.eprintf "Please specify sheet initialization file as command-line argument!\n"
+| 2 ->
     let sheet = init_sheet_from_file Sys.argv.(1) in
     repl sheet
 | _ ->
