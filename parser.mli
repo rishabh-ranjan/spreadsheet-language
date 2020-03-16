@@ -16,3 +16,5 @@ type token =
 
 val main :
   (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Sheet.sheet -> unit
+val line :
+  (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Sheet.sheet -> unit

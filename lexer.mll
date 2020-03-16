@@ -13,7 +13,13 @@
 {
     open Sheet (* Contains function declarations/definitions *)
 	open Parser	(* The type token is defined in parser.mli *)
-    exception LexicalError
+
+    (* To keep track of the line numbers for better error msgs *)
+    let incr_linenum lexbuf =
+        let pos = lexbuf.Lexing.lex_curr_p in
+        lexbuf.Lexing.lex_curr_p <- { pos with
+          Lexing.pos_lnum = pos.Lexing.pos_lnum + 1;
+        }
 }
 
     (* whitespace *)
@@ -61,9 +67,11 @@ rule scan = parse
 | "MULT" { FUNC_BINARY { for_float = mult_float; for_index = mult_index; for_range = mult_range } }
 | "DIV" { FUNC_BINARY { for_float = div_float; for_index = div_index; for_range = div_range } }
     (* ignore whitespace *)
-| ' '|'\t'|'\n'|'\r' { scan lexbuf }
-    (* exception case *)
-| _ { raise LexicalError }
+| ' '|'\t'|'\r' { scan lexbuf }
+    (* newline *)
+| '\n' { incr_linenum lexbuf; scan lexbuf }
+    (* exception case - intimate about lexical error and continue scanning*)
+| _ { Printf.eprintf "Line %d: lexical error\n" lexbuf.Lexing.lex_curr_p.pos_lnum; scan lexbuf }
 | eof { EOF }
 
 {

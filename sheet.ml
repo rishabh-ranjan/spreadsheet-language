@@ -127,13 +127,27 @@ let col_avg (((r1,c1),(r2,c2)) as range) ((r,c) as index) sheet =
     col_sum range index sheet;
     div_float ((r,c),(r,c+c2-c1)) (float (r2-r1+1)) index sheet
 
-let print_sheet =
-    Array.iter (
-        fun a ->
-        Array.iter (
-            fun x -> match x with
-            | None -> Printf.printf "-\t"
-            | Some y -> Printf.printf "%g\t" y
-        ) a;
-        Printf.printf "\n"
-    )
+let print_sheet sheet =
+    (*
+    Printf.printf "\t|\t";
+    for i = 0 to (Array.length sheet) - 1 do
+        Printf.printf "%d\t" i
+    done;
+    Printf.printf "\n";
+    for i = 0 to (Array.length sheet) + 1 do
+        Printf.printf "________"
+    done;
+    Printf.printf "\n";
+    *)
+    Printf.printf "\n";
+    Array.iteri (
+        fun i a ->
+            (* Printf.printf "%d\t|\t" i; *)
+            Array.iter (
+                fun x -> match x with
+                | None -> Printf.printf "-\t"
+                | Some y -> Printf.printf "%g\t" y
+            ) a;
+            Printf.printf "\n"
+    ) sheet;
+    Printf.printf "\n"

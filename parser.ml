@@ -39,44 +39,47 @@ let yytransl_block = [|
     0|]
 
 let yylhs = "\255\255\
-\001\000\001\000\001\000\002\000\002\000\002\000\002\000\002\000\
-\002\000\000\000"
+\001\000\001\000\002\000\002\000\002\000\002\000\002\000\002\000\
+\002\000\000\000\000\000"
 
 let yylen = "\002\000\
-\000\000\002\000\002\000\005\000\006\000\006\000\006\000\006\000\
-\006\000\002\000"
+\000\000\002\000\005\000\006\000\006\000\006\000\006\000\006\000\
+\001\000\002\000\002\000"
 
 let yydefred = "\000\000\
-\001\000\000\000\000\000\003\000\000\000\002\000\000\000\000\000\
-\000\000\000\000\000\000\000\000\000\000\004\000\000\000\000\000\
-\000\000\000\000\000\000\005\000\007\000\006\000\008\000\009\000"
+\001\000\000\000\000\000\000\000\009\000\000\000\011\000\002\000\
+\000\000\000\000\000\000\000\000\000\000\000\000\000\000\003\000\
+\000\000\000\000\000\000\000\000\000\000\004\000\006\000\005\000\
+\007\000\008\000"
 
-let yydgoto = "\002\000\
-\003\000\006\000"
+let yydgoto = "\003\000\
+\004\000\007\000"
 
-let yysindex = "\005\000\
-\000\000\000\000\003\255\000\000\249\254\000\000\248\254\252\254\
-\255\254\005\255\253\254\004\255\001\255\000\000\007\255\008\255\
-\009\255\010\255\011\255\000\000\000\000\000\000\000\000\000\000"
-
-let yyrindex = "\000\000\
-\000\000\000\000\021\000\000\000\000\000\000\000\000\000\000\000\
-\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
-\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
-
-let yygindex = "\000\000\
+let yysindex = "\003\000\
+\000\000\003\255\000\000\003\255\000\000\249\254\000\000\000\000\
+\250\254\253\254\255\254\005\255\004\255\006\255\001\255\000\000\
+\007\255\009\255\010\255\011\255\012\255\000\000\000\000\000\000\
 \000\000\000\000"
 
-let yytablesize = 21
-let yytable = "\011\000\
-\007\000\017\000\004\000\008\000\009\000\001\000\010\000\015\000\
-\012\000\013\000\018\000\019\000\005\000\014\000\016\000\020\000\
-\021\000\022\000\023\000\024\000\010\000"
+let yyrindex = "\000\000\
+\000\000\000\000\000\000\022\000\000\000\000\000\000\000\000\000\
+\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
+\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
+\000\000\000\000"
+
+let yygindex = "\000\000\
+\000\000\019\000"
+
+let yytablesize = 23
+let yytable = "\013\000\
+\009\000\019\000\005\000\001\000\002\000\010\000\011\000\012\000\
+\014\000\015\000\020\000\021\000\006\000\016\000\017\000\022\000\
+\018\000\023\000\024\000\025\000\026\000\010\000\008\000"
 
 let yycheck = "\001\001\
-\008\001\001\001\000\001\012\001\013\001\001\000\011\001\011\001\
+\008\001\001\001\000\001\001\000\002\000\012\001\013\001\011\001\
 \010\001\011\001\010\001\011\001\010\001\009\001\011\001\009\001\
-\009\001\009\001\009\001\009\001\000\000"
+\011\001\009\001\009\001\009\001\009\001\000\000\004\000"
 
 let yynames_const = "\
   LPAREN\000\
@@ -102,37 +105,26 @@ let yyact = [|
   (fun _ -> failwith "parser")
 ; (fun __caml_parser_env ->
     Obj.repr(
-# 32 "parser.mly"
+# 33 "parser.mly"
                   ( fun x -> () )
-# 108 "parser.ml"
+# 111 "parser.ml"
                : Sheet.sheet -> unit))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 1 : Sheet.sheet -> unit) in
     let _2 = (Parsing.peek_val __caml_parser_env 0 : Sheet.sheet -> unit) in
     Obj.repr(
-# 33 "parser.mly"
-                ( fun x -> (_1 x; _2 x; Sheet.print_sheet x) )
-# 116 "parser.ml"
-               : Sheet.sheet -> unit))
-; (fun __caml_parser_env ->
-    let _1 = (Parsing.peek_val __caml_parser_env 1 : Sheet.sheet -> unit) in
-    Obj.repr(
 # 34 "parser.mly"
-                 ( 
-        let start_pos = Parsing.rhs_start_pos 2 in
-        Printf.eprintf "Line %d: parse error\n" start_pos.pos_lnum;
-        fun x -> ()
-    )
-# 127 "parser.ml"
+                ( fun x -> (_1 x; _2 x) )
+# 119 "parser.ml"
                : Sheet.sheet -> unit))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 4 : Sheet.index) in
     let _3 = (Parsing.peek_val __caml_parser_env 2 : Sheet.func_unary) in
     let _4 = (Parsing.peek_val __caml_parser_env 1 : Sheet.range) in
     Obj.repr(
-# 41 "parser.mly"
-                                              ( Printf.printf "unary R\n"; _3 _4 _1 )
-# 136 "parser.ml"
+# 37 "parser.mly"
+                                              ( _3 _4 _1 )
+# 128 "parser.ml"
                : Sheet.sheet -> unit))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 5 : Sheet.index) in
@@ -140,9 +132,9 @@ let yyact = [|
     let _4 = (Parsing.peek_val __caml_parser_env 2 : float) in
     let _5 = (Parsing.peek_val __caml_parser_env 1 : Sheet.range) in
     Obj.repr(
-# 42 "parser.mly"
-                                                     ( Printf.printf "binary F R\n"; _3.for_float _5 _4 _1 )
-# 146 "parser.ml"
+# 38 "parser.mly"
+                                                     ( _3.for_float _5 _4 _1 )
+# 138 "parser.ml"
                : Sheet.sheet -> unit))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 5 : Sheet.index) in
@@ -150,9 +142,9 @@ let yyact = [|
     let _4 = (Parsing.peek_val __caml_parser_env 2 : Sheet.range) in
     let _5 = (Parsing.peek_val __caml_parser_env 1 : float) in
     Obj.repr(
-# 43 "parser.mly"
-                                                     ( Printf.printf "binary R F\n"; _3.for_float _4 _5 _1 )
-# 156 "parser.ml"
+# 39 "parser.mly"
+                                                     ( _3.for_float _4 _5 _1 )
+# 148 "parser.ml"
                : Sheet.sheet -> unit))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 5 : Sheet.index) in
@@ -160,9 +152,9 @@ let yyact = [|
     let _4 = (Parsing.peek_val __caml_parser_env 2 : Sheet.index) in
     let _5 = (Parsing.peek_val __caml_parser_env 1 : Sheet.range) in
     Obj.repr(
-# 44 "parser.mly"
-                                                     ( Printf.printf "binary I R\n"; _3.for_index _5 _4 _1 )
-# 166 "parser.ml"
+# 40 "parser.mly"
+                                                     ( _3.for_index _5 _4 _1 )
+# 158 "parser.ml"
                : Sheet.sheet -> unit))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 5 : Sheet.index) in
@@ -170,9 +162,9 @@ let yyact = [|
     let _4 = (Parsing.peek_val __caml_parser_env 2 : Sheet.range) in
     let _5 = (Parsing.peek_val __caml_parser_env 1 : Sheet.index) in
     Obj.repr(
-# 45 "parser.mly"
-                                                     ( Printf.printf "binary R I\n"; _3.for_index _4 _5 _1 )
-# 176 "parser.ml"
+# 41 "parser.mly"
+                                                     ( _3.for_index _4 _5 _1 )
+# 168 "parser.ml"
                : Sheet.sheet -> unit))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 5 : Sheet.index) in
@@ -180,11 +172,24 @@ let yyact = [|
     let _4 = (Parsing.peek_val __caml_parser_env 2 : Sheet.range) in
     let _5 = (Parsing.peek_val __caml_parser_env 1 : Sheet.range) in
     Obj.repr(
-# 46 "parser.mly"
-                                                     ( Printf.printf "binary R R\n"; _3.for_range _5 _4 _1 )
-# 186 "parser.ml"
+# 42 "parser.mly"
+                                                     ( _3.for_range _5 _4 _1 )
+# 178 "parser.ml"
+               : Sheet.sheet -> unit))
+; (fun __caml_parser_env ->
+    Obj.repr(
+# 43 "parser.mly"
+            (
+        let start_pos = Parsing.symbol_start_pos () in
+        Printf.eprintf "Line %d: parse error\n" (start_pos.pos_lnum);
+        flush stderr;
+        fun x -> ()
+    )
+# 189 "parser.ml"
                : Sheet.sheet -> unit))
 (* Entry main *)
+; (fun __caml_parser_env -> raise (Parsing.YYexit (Parsing.peek_val __caml_parser_env 0)))
+(* Entry line *)
 ; (fun __caml_parser_env -> raise (Parsing.YYexit (Parsing.peek_val __caml_parser_env 0)))
 |]
 let yytables =
@@ -206,3 +211,5 @@ let yytables =
     Parsing.names_block=yynames_block }
 let main (lexfun : Lexing.lexbuf -> token) (lexbuf : Lexing.lexbuf) =
    (Parsing.yyparse yytables 1 lexfun lexbuf : Sheet.sheet -> unit)
+let line (lexfun : Lexing.lexbuf -> token) (lexbuf : Lexing.lexbuf) =
+   (Parsing.yyparse yytables 2 lexfun lexbuf : Sheet.sheet -> unit)

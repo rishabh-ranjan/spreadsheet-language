@@ -25,24 +25,26 @@
 %start main
 %type <Sheet.sheet -> unit> main
 
+%start line
 %type <Sheet.sheet -> unit> line
 
 %%
 
 main: /* empty */ { fun x -> () }
-    | main line { fun x -> ($1 x; $2 x; Sheet.print_sheet x) }
-    | main error { 
-        let start_pos = Parsing.rhs_start_pos 2 in
-        Printf.eprintf "Line %d: parse error\n" start_pos.pos_lnum;
-        fun x -> ()
-    }
+    | main line { fun x -> ($1 x; $2 x) }
 ;
 
-line: INDEX ASSIGN FUNC_UNARY RANGE SEMICOLON { Printf.printf "unary R\n"; $3 $4 $1 }
-    | INDEX ASSIGN FUNC_BINARY FLOAT RANGE SEMICOLON { Printf.printf "binary F R\n"; $3.for_float $5 $4 $1 }
-    | INDEX ASSIGN FUNC_BINARY RANGE FLOAT SEMICOLON { Printf.printf "binary R F\n"; $3.for_float $4 $5 $1 }
-    | INDEX ASSIGN FUNC_BINARY INDEX RANGE SEMICOLON { Printf.printf "binary I R\n"; $3.for_index $5 $4 $1 }
-    | INDEX ASSIGN FUNC_BINARY RANGE INDEX SEMICOLON { Printf.printf "binary R I\n"; $3.for_index $4 $5 $1 }
-    | INDEX ASSIGN FUNC_BINARY RANGE RANGE SEMICOLON { Printf.printf "binary R R\n"; $3.for_range $5 $4 $1 }
+line: INDEX ASSIGN FUNC_UNARY RANGE SEMICOLON { $3 $4 $1 }
+    | INDEX ASSIGN FUNC_BINARY FLOAT RANGE SEMICOLON { $3.for_float $5 $4 $1 }
+    | INDEX ASSIGN FUNC_BINARY RANGE FLOAT SEMICOLON { $3.for_float $4 $5 $1 }
+    | INDEX ASSIGN FUNC_BINARY INDEX RANGE SEMICOLON { $3.for_index $5 $4 $1 }
+    | INDEX ASSIGN FUNC_BINARY RANGE INDEX SEMICOLON { $3.for_index $4 $5 $1 }
+    | INDEX ASSIGN FUNC_BINARY RANGE RANGE SEMICOLON { $3.for_range $5 $4 $1 }
+    | error {
+        let start_pos = Parsing.symbol_start_pos () in
+        Printf.eprintf "Line %d: parse error\n" (start_pos.pos_lnum);
+        flush stderr;
+        fun x -> ()
+    }
 ;
 
