@@ -27,4 +27,5 @@ let () =
     let lexbuf = Lexing.from_channel stdin in
     let func = Parser.main Lexer.scan lexbuf in
     let sheet = init_sheet_from_file Sys.argv.(1) in
+    Sheet.print_sheet sheet;
     func sheet

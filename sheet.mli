@@ -93,3 +93,5 @@ val mult_range: func_range
 (* performs a division on the cell contents for each corresponding pair of cells in two selected cell ranges *)
 val div_range: func_range
 
+(* prints the sheet in grid form *)
+val print_sheet: sheet -> unit

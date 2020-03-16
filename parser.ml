@@ -111,7 +111,7 @@ let yyact = [|
     let _2 = (Parsing.peek_val __caml_parser_env 0 : Sheet.sheet -> unit) in
     Obj.repr(
 # 33 "parser.mly"
-                ( fun x -> (_1 x; _2 x) )
+                ( fun x -> (_1 x; _2 x; Sheet.print_sheet x) )
 # 116 "parser.ml"
                : Sheet.sheet -> unit))
 ; (fun __caml_parser_env ->
@@ -131,7 +131,7 @@ let yyact = [|
     let _4 = (Parsing.peek_val __caml_parser_env 1 : Sheet.range) in
     Obj.repr(
 # 41 "parser.mly"
-                                              ( Printf.eprintf "unary R\n"; _3 _4 _1 )
+                                              ( Printf.printf "unary R\n"; _3 _4 _1 )
 # 136 "parser.ml"
                : Sheet.sheet -> unit))
 ; (fun __caml_parser_env ->
@@ -141,7 +141,7 @@ let yyact = [|
     let _5 = (Parsing.peek_val __caml_parser_env 1 : Sheet.range) in
     Obj.repr(
 # 42 "parser.mly"
-                                                     ( Printf.eprintf "binary F R\n"; _3.for_float _5 _4 _1 )
+                                                     ( Printf.printf "binary F R\n"; _3.for_float _5 _4 _1 )
 # 146 "parser.ml"
                : Sheet.sheet -> unit))
 ; (fun __caml_parser_env ->
@@ -151,7 +151,7 @@ let yyact = [|
     let _5 = (Parsing.peek_val __caml_parser_env 1 : float) in
     Obj.repr(
 # 43 "parser.mly"
-                                                     ( Printf.eprintf "binary R F\n"; _3.for_float _4 _5 _1 )
+                                                     ( Printf.printf "binary R F\n"; _3.for_float _4 _5 _1 )
 # 156 "parser.ml"
                : Sheet.sheet -> unit))
 ; (fun __caml_parser_env ->
@@ -161,7 +161,7 @@ let yyact = [|
     let _5 = (Parsing.peek_val __caml_parser_env 1 : Sheet.range) in
     Obj.repr(
 # 44 "parser.mly"
-                                                     ( Printf.eprintf "binary I R\n"; _3.for_index _5 _4 _1 )
+                                                     ( Printf.printf "binary I R\n"; _3.for_index _5 _4 _1 )
 # 166 "parser.ml"
                : Sheet.sheet -> unit))
 ; (fun __caml_parser_env ->
@@ -171,7 +171,7 @@ let yyact = [|
     let _5 = (Parsing.peek_val __caml_parser_env 1 : Sheet.index) in
     Obj.repr(
 # 45 "parser.mly"
-                                                     ( Printf.eprintf "binary R I\n"; _3.for_index _4 _5 _1 )
+                                                     ( Printf.printf "binary R I\n"; _3.for_index _4 _5 _1 )
 # 176 "parser.ml"
                : Sheet.sheet -> unit))
 ; (fun __caml_parser_env ->
@@ -181,7 +181,7 @@ let yyact = [|
     let _5 = (Parsing.peek_val __caml_parser_env 1 : Sheet.range) in
     Obj.repr(
 # 46 "parser.mly"
-                                                     ( Printf.eprintf "binary R R\n"; _3.for_range _5 _4 _1 )
+                                                     ( Printf.printf "binary R R\n"; _3.for_range _5 _4 _1 )
 # 186 "parser.ml"
                : Sheet.sheet -> unit))
 (* Entry main *)

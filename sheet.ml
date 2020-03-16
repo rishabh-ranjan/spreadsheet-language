@@ -2,6 +2,9 @@
 (* TODO: replace sheet with unit in return types *)
 (* TODO: documentation *)
 (* TODO: improved handling of undefined cells... instead of error, use None + None = None, etc. *)
+
+(* TODO: count function definitely has error *)
+
 type index = int * int
 type range = index * index
 type sheet = float option array array
@@ -124,3 +127,13 @@ let col_avg (((r1,c1),(r2,c2)) as range) ((r,c) as index) sheet =
     col_sum range index sheet;
     div_float ((r,c),(r,c+c2-c1)) (float (r2-r1+1)) index sheet
 
+let print_sheet =
+    Array.iter (
+        fun a ->
+        Array.iter (
+            fun x -> match x with
+            | None -> Printf.printf "-\t"
+            | Some y -> Printf.printf "%g\t" y
+        ) a;
+        Printf.printf "\n"
+    )
