@@ -74,7 +74,7 @@ let full_count ((r1,c1),(r2,c2)) (r,c) sheet =
 
 (* function for count on rows *)
 let row_count ((r1,c1),(r2,c2)) (r,c) sheet =
-    let sheet = expand (r1,c1) (expand (r2,c2) (expand (r,c) sheet)) in
+    let sheet = expand (r1,c1) (expand (r2,c2) (expand (r,c) (expand (r+r2-r1,c) sheet))) in
     let rec aux r1 r =
         if r1 > r2 then ()
         else (
@@ -86,13 +86,13 @@ let row_count ((r1,c1),(r2,c2)) (r,c) sheet =
 
 (* function for count on columns *)
 let col_count ((r1,c1),(r2,c2)) (r,c) sheet =
-    let sheet = expand (r1,c1) (expand (r2,c2) (expand (r,c) sheet)) in
+    let sheet = expand (r1,c1) (expand (r2,c2) (expand (r,c) (expand (r,c+c2-c1) sheet))) in
     let rec aux c1 c =
         if c1 > c2 then ()
         else (
             let acc_row x y = x +. (count_func 0. y.(c1)) in
             sheet.(r).(c) <- Some (r_fold_left 0. acc_row r1 r2 sheet);
-            aux (c1+1) c
+            aux (c1+1) (c+1)
         )
     in aux c1 c;
     sheet
@@ -113,7 +113,7 @@ let full_func func iden ((r1,c1),(r2,c2)) (r,c) sheet =
     sheet
 
 let row_func func iden ((r1,c1),(r2,c2)) (r,c) sheet =
-    let sheet = expand (r1,c1) (expand (r2,c2) (expand (r,c) sheet)) in
+    let sheet = expand (r1,c1) (expand (r2,c2) (expand (r,c) (expand (r+r2-r1,c) sheet))) in
     let rec aux r1 r =
         if r1 > r2 then () (* base case for recursion *)
         else (
@@ -124,7 +124,7 @@ let row_func func iden ((r1,c1),(r2,c2)) (r,c) sheet =
     sheet
 
 let col_func func iden ((r1,c1),(r2,c2)) (r,c) sheet =
-    let sheet = expand (r1,c1) (expand (r2,c2) (expand (r,c) sheet)) in
+    let sheet = expand (r1,c1) (expand (r2,c2) (expand (r,c) (expand (r,c+c2-c1) sheet))) in
     let rec aux c1 c =
         if c1 > c2 then () (* base case for recursion *)
         else (
@@ -163,7 +163,7 @@ let col_max = col_func (option_func max_func) (Some max_iden)
  *)
 
 let float_func func ((r1,c1),(r2,c2)) e (r,c) sheet =
-    let sheet = expand (r1,c1) (expand (r2,c2) (expand (r,c) sheet)) in
+    let sheet = expand (r1,c1) (expand (r2,c2) (expand (r,c) (expand (r+r2-r1,c+c2-c1) sheet))) in
     for i = 0 to r2-r1 do
         for j = 0 to c2-c1 do
             sheet.(r+i).(c+j) <- func sheet.(r1+i).(c1+j) (Some e)
@@ -172,7 +172,7 @@ let float_func func ((r1,c1),(r2,c2)) e (r,c) sheet =
     sheet
 
 let index_func func ((r1,c1),(r2,c2)) (r',c') (r,c) sheet =
-    let sheet = expand (r1,c1) (expand (r2,c2) (expand (r',c') (expand (r,c) sheet))) in
+    let sheet = expand (r1,c1) (expand (r2,c2) (expand (r',c') (expand (r,c) (expand (r+r2-r1,c+c2-c1) sheet)))) in
     for i = 0 to r2-r1 do
         for j = 0 to c2-c1 do
             sheet.(r+i).(c+j) <- func sheet.(r1+i).(c1+j) sheet.(r').(c')
@@ -184,7 +184,7 @@ let range_func func ((r1,c1),(r2,c2)) ((r1',c1'),(r2',c2')) (r,c) sheet =
     if r2-r1 <> r2'-r1' || c2-c1 <> c2'-c1' then
         raise Range_size_mismatch
     else (
-        let sheet = expand (r1,c1) (expand (r2,c2) (expand (r1',c1') (expand (r2',c2') (expand (r,c) sheet)))) in
+        let sheet = expand (r1,c1) (expand (r2,c2) (expand (r1',c1') (expand (r2',c2') (expand (r,c) (expand (r+r2-r1,c+c2-c1) sheet))))) in
         for i = 0 to r2-r1 do
             for j = 0 to c2-c1 do
                 sheet.(r+i).(c+j) <- func sheet.(r1+i).(c1+j) sheet.(r1'+i).(c1'+j)

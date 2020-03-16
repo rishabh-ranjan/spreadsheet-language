@@ -15,8 +15,8 @@ lexer.ml: lexer.mll
 parser.cmo: parser.ml parser.cmi sheet.cmi
 	ocamlc -c -o $@ $<
 
-parser.cmi: parser.mli
-	ocamlc -c -o $@ $^
+parser.cmi: parser.mli sheet.mli
+	ocamlc -c -o $@ $<
 
 parser.ml parser.mli: parser.mly
 	ocamlyacc $^
